@@ -36,9 +36,11 @@ require_once 'layouts/header.php';
                             <select name="organization_id" class="form-select" required>
                                 <option value="">-- Select Organization --</option>
                                 <?php foreach ($organizations ?? [] as $org): ?>
+                                    <?php if ($org['status'] === 'approved'): ?>
                                     <option value="<?php echo $org['id']; ?>">
                                         <?php echo htmlspecialchars($org['organization_name']); ?>
                                     </option>
+                                    <?php endif; ?>
                                 <?php endforeach; ?>
                             </select>
                         </div>

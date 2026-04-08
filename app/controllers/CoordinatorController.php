@@ -237,7 +237,7 @@ class CoordinatorController extends Controller
         $students = $student->getAll();
         
         $organization = new Organization();
-        $organizations = $organization->getPending(); // Get pending organizations
+        $organizations = $organization->getAllWithStudentCounts(); // Approved organizations
         
         $this->view('coordinator.create-placement', [
             'students' => $students,

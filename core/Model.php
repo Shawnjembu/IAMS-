@@ -81,10 +81,18 @@ class Model
     public function insert($data)
     {
         $columns = implode(', ', array_keys($data));
-        $values = "'" . implode("', '", array_map([$this->db, 'real_escape_string'], array_values($data))) . "'";
-        
+        $valueParts = [];
+        foreach (array_values($data) as $value) {
+            if ($value === null) {
+                $valueParts[] = 'NULL';
+            } else {
+                $valueParts[] = "'" . mysqli_real_escape_string($this->db, $value) . "'";
+            }
+        }
+        $values = implode(', ', $valueParts);
+
         $sql = "INSERT INTO {$this->table} ({$columns}) VALUES ({$values})";
-        
+
         if (mysqli_query($this->db, $sql)) {
             return mysqli_insert_id($this->db);
         }
@@ -102,12 +110,15 @@ class Model
     {
         $set = [];
         foreach ($data as $key => $value) {
-            $value = mysqli_real_escape_string($this->db, $value);
-            $set[] = "{$key} = '{$value}'";
+            if ($value === null) {
+                $set[] = "{$key} = NULL";
+            } else {
+                $set[] = "{$key} = '" . mysqli_real_escape_string($this->db, $value) . "'";
+            }
         }
-        
+
         $sql = "UPDATE {$this->table} SET " . implode(', ', $set) . " WHERE id = {$id}";
-        
+
         return mysqli_query($this->db, $sql);
     }
 
