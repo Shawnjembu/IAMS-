@@ -137,15 +137,11 @@
                         </div>
                         
                         <hr class="my-4">
-                        
-                        <div class="text-center">
-                            <p class="text-muted small mb-2">Demo Accounts:</p>
-                            <div class="d-flex flex-wrap justify-content-center gap-2">
-                                <span class="badge bg-secondary">admin@example.com</span>
-                                <span class="badge bg-secondary">student@example.com</span>
-                                <span class="badge bg-secondary">supervisor@example.com</span>
-                            </div>
-                            <p class="text-muted small mt-2">Password: password123</p>
+
+                        <div class="text-center small text-muted">
+                            <p class="mb-1"><strong>Who can register here?</strong></p>
+                            <p class="mb-1">Students and Organizations can self-register above.</p>
+                            <p class="mb-0">Coordinator &amp; Supervisor accounts are created by the school — contact your coordinator for access.</p>
                         </div>
                     </div>
                 </div>

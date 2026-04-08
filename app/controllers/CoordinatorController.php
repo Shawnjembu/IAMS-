@@ -305,6 +305,78 @@ class CoordinatorController extends Controller
     }
 
     /**
+     * View all supervisors
+     */
+    public function supervisors()
+    {
+        $db = connectToDatabase();
+        $sql = "SELECT s.*, o.organization_name,
+                (SELECT COUNT(*) FROM placements p WHERE p.supervisor_id = s.id) as student_count
+                FROM supervisors s
+                LEFT JOIN organizations o ON s.organization_id = o.id
+                ORDER BY s.id DESC";
+        $result = mysqli_query($db, $sql);
+        $supervisors = [];
+        while ($row = mysqli_fetch_assoc($result)) {
+            $supervisors[] = $row;
+        }
+
+        $organization = new Organization();
+        $organizations = $organization->getAllWithStudentCounts();
+
+        $this->view('coordinator.supervisors', [
+            'supervisors' => $supervisors,
+            'organizations' => $organizations
+        ]);
+    }
+
+    /**
+     * Create a new supervisor account
+     */
+    public function createSupervisor()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $db = connectToDatabase();
+
+            $fullName   = mysqli_real_escape_string($db, $_POST['full_name'] ?? '');
+            $email      = mysqli_real_escape_string($db, $_POST['email'] ?? '');
+            $phone      = mysqli_real_escape_string($db, $_POST['phone'] ?? '');
+            $position   = mysqli_real_escape_string($db, $_POST['position'] ?? '');
+            $orgId      = !empty($_POST['organization_id']) ? (int)$_POST['organization_id'] : 'NULL';
+            $password   = password_hash($_POST['password'] ?? 'password', PASSWORD_DEFAULT);
+            $password   = mysqli_real_escape_string($db, $password);
+
+            if (empty($fullName) || empty($email)) {
+                $_SESSION['error'] = 'Full name and email are required.';
+                $this->redirect('coordinator/supervisors');
+            }
+
+            // Check duplicate email across all tables
+            foreach (['students','organizations','coordinators','supervisors'] as $table) {
+                $chk = mysqli_query($db, "SELECT id FROM {$table} WHERE email = '{$email}'");
+                if (mysqli_num_rows($chk) > 0) {
+                    $_SESSION['error'] = 'That email is already registered in the system.';
+                    $this->redirect('coordinator/supervisors');
+                }
+            }
+
+            $orgVal = $orgId === 'NULL' ? 'NULL' : "'{$orgId}'";
+            $sql = "INSERT INTO supervisors (full_name, email, password, phone, position, organization_id, created_at)
+                    VALUES ('{$fullName}', '{$email}', '{$password}', '{$phone}', '{$position}', {$orgVal}, NOW())";
+
+            if (mysqli_query($db, $sql)) {
+                $_SESSION['success'] = "Supervisor account created. They can log in with email: {$email} and the password you set.";
+            } else {
+                $_SESSION['error'] = 'Failed to create supervisor: ' . mysqli_error($db);
+            }
+
+            $this->redirect('coordinator/supervisors');
+        }
+
+        $this->redirect('coordinator/supervisors');
+    }
+
+    /**
      * Reports and analytics
      */
     public function analytics()

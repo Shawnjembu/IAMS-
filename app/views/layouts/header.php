@@ -175,6 +175,9 @@
                         <a href="<?php echo BASE_URL; ?>coordinator/placements" class="nav-item <?php echo strpos($currentPage, 'coordinator/placements') !== false ? 'active' : ''; ?>">
                             <i class="fas fa-clipboard-list me-2"></i> Placements
                         </a>
+                        <a href="<?php echo BASE_URL; ?>coordinator/supervisors" class="nav-item <?php echo strpos($currentPage, 'coordinator/supervisors') !== false ? 'active' : ''; ?>">
+                            <i class="fas fa-user-tie me-2"></i> Supervisors
+                        </a>
                         <a href="<?php echo BASE_URL; ?>coordinator/logbooks" class="nav-item <?php echo strpos($currentPage, 'coordinator/logbooks') !== false ? 'active' : ''; ?>">
                             <i class="fas fa-book me-2"></i> Logbooks
                         </a>

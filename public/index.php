@@ -98,6 +98,8 @@ $router->add('coordinator/evaluations', ['controller' => 'coordinator', 'action'
 $router->add('coordinator/analytics', ['controller' => 'coordinator', 'action' => 'analytics']);
 $router->add('coordinator/notifications', ['controller' => 'coordinator', 'action' => 'notifications']);
 $router->add('coordinator/mark-notification-read', ['controller' => 'coordinator', 'action' => 'markNotificationRead']);
+$router->add('coordinator/supervisors', ['controller' => 'coordinator', 'action' => 'supervisors']);
+$router->add('coordinator/create-supervisor', ['controller' => 'coordinator', 'action' => 'createSupervisor']);
 
 // Supervisor routes
 $router->add('supervisor/dashboard', ['controller' => 'supervisor', 'action' => 'dashboard']);
