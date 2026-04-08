@@ -225,7 +225,7 @@ CREATE TABLE applications (
 -- DEFAULT ADMIN ACCOUNT
 -- ========================================
 
--- Insert default admin (password: admin123)
+-- Insert default admin (password: password)
 INSERT INTO coordinators (full_name, email, password, phone, department, position) 
 VALUES (
     'System Administrator', 
@@ -236,7 +236,7 @@ VALUES (
     'System Admin'
 );
 
--- Insert default student (password: student123)
+-- Insert default student (password: password)
 INSERT INTO students (student_number, full_name, email, password, phone, program, year, semester, status) 
 VALUES (
     'STU001', 
@@ -250,7 +250,7 @@ VALUES (
     'pending'
 );
 
--- Insert default supervisor (password: supervisor123)
+-- Insert default supervisor (password: password)
 INSERT INTO supervisors (full_name, email, password, phone, position, organization_id) 
 VALUES (
     'Jane Supervisor', 
